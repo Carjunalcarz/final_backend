@@ -1,0 +1,7 @@
+PUT http://localhost:3002/api/subscriptions/67621a725f725021eed4895e
+Content-Type: application/json
+
+{
+  "endDate": "2028-01-01",
+  "isActive": true
+}
