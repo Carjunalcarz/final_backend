@@ -1,3 +1,8 @@
+# MONGO_URI=mongodb+srv://cardonaaljun:ajncarz123@cluster0.rah9cuo.mongodb.net/internet_billing_system
+# PORT=3002
+# JWT_SECRET=yourSecretKey
+
+
 PUT http://localhost:3002/api/subscriptions/67621a725f725021eed4895e
 Content-Type: application/json
 

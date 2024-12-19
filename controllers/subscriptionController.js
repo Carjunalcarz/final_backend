@@ -14,13 +14,54 @@ export const createSubscription = async (req, res) => {
 };
 
 // Get all subscriptions
+// export const getAllSubscriptions = async (req, res) => {
+//   try {
+//     const subscriptions = await Subscription.find();
+//     res.status(200).json({ success: true, data: subscriptions });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ success: false, message: error.message });
+//   }
+// };
+
 export const getAllSubscriptions = async (req, res) => {
   try {
-    const subscriptions = await Subscription.find();
-    res.status(200).json({ success: true, data: subscriptions });
+    // Pagination parameters
+    const { page = 1, limit = 10 } = req.query;
+
+    // Convert page and limit to numbers
+    const pageNumber = parseInt(page, 10);
+    const pageSize = parseInt(limit, 10);
+
+    if (isNaN(pageNumber) || isNaN(pageSize) || pageNumber < 1 || pageSize < 1) {
+      return res.status(400).json({ success: false, message: "Invalid page or limit parameter" });
+    }
+
+    // Fetch subscriptions with pagination
+    const subscriptions = await Subscription.find()
+      .skip((pageNumber - 1) * pageSize)  // Skips the documents based on page number
+      .limit(pageSize)  // Limits the number of documents per page
+      .populate('user', 'firstName lastName email phoneNumber')  // Populate user fields
+      .populate('servicePlan', 'name');  // Optional: populate servicePlan if needed
+
+    // Count total documents for pagination metadata
+    const totalSubscriptions = await Subscription.countDocuments();
+
+    // Calculate total pages
+    const totalPages = Math.ceil(totalSubscriptions / pageSize);
+
+    res.json({
+      success: true,
+      data: subscriptions,
+      pagination: {
+        currentPage: pageNumber,
+        totalPages: totalPages,
+        totalSubscriptions: totalSubscriptions,
+      },
+    });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, message: error.message });
+    console.error("Error fetching subscriptions:", error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
 
