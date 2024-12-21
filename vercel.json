@@ -1,16 +1,14 @@
 {
     "version": 2,
-    "builds": [
-      {
-        "src": "server.js",
-        "use": "@vercel/node"
-      }
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/api"
+        }
     ],
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "/server.js"
-      }
-    ]
-  }
-  
+    "env": {
+        "JWT_SECRET": "your_secret_key_value",
+        "MONGO_URI": "mongodb+srv://cardonaaljun:ajncarz123@cluster0.rah9cuo.mongodb.net/internet_billing_system",
+        "PORT": "3002"
+    }
+}
