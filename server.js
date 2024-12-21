@@ -86,3 +86,5 @@ app.use('/api/billings', billingRoutes);
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
+export default app
