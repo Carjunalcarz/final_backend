@@ -7,6 +7,7 @@ import session from "express-session";
 import path from "path"; // Import path
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import serverless from 'serverless-http';
 
 // Import routes
 import userRoutes from "./routes/userRoutes.js";
@@ -18,6 +19,7 @@ import supportTicketRoutes from "./routes/supportTicketRoutes.js"
 import networkNodeRoutes from "./routes/networkNodeRoutes.js"
 import connectionRoutes from "./routes/connectionRoutes.js"
 import billingRoutes from "./routes/billingRoutes.js"
+
 
 dotenv.config();
 
@@ -87,4 +89,5 @@ app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
 
-export default app
+// Export the handler function for Vercel
+export const handler = serverless(app);
