@@ -6,16 +6,11 @@
         "use": "@vercel/node"
       }
     ],
-    "rewrites": [
+    "routes": [
       {
-        "source": "/api/(.*)",
-        "destination": "/api/$1"
+        "src": "/(.*)",
+        "dest": "/server.js"
       }
-    ],
-    "env": {
-      "JWT_SECRET": "your_secret_key_value",
-      "MONGO_URI": "mongodb+srv://cardonaaljun:ajncarz123@cluster0.rah9cuo.mongodb.net/internet_billing_system",
-      "PORT": "3002"
-    }
+    ]
   }
   
