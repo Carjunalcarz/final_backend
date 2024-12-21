@@ -88,6 +88,7 @@ app.use('/api/billings', billingRoutes);
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+console.log(process.env.MONGO_URI); // Example for MongoDB connection string
 
 // Export the handler function for Vercel
 export default app;
