@@ -4,6 +4,9 @@
   "description": "An Internet Billing System with repair functionality",
   "main": "server.js",
   "type": "module",
+  "engines" : {
+    "node" : "22.x"
+  },
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js"
