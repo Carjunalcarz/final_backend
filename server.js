@@ -90,4 +90,4 @@ app.listen(PORT, () => {
 });
 
 // Export the handler function for Vercel
-export const handler = serverless(app);
+export default app;
