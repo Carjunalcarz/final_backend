@@ -70,8 +70,8 @@ export const getAllSubscriptions = async (req, res) => {
   try {
     // Fetch all subscriptions and populate fields as needed
     const subscriptions = await Subscription.find()
-      .populate('user', 'firstName lastName email phoneNumber')  // Populate user fields
-      .populate('servicePlan', 'name');  // Optional: populate servicePlan if needed
+      .populate('user', 'firstName lastName')  // Populate user fields
+      .populate('servicePlan', 'name speedMbps');  // Optional: populate servicePlan if needed
 
     // Count total documents
     const totalSubscriptions = await Subscription.countDocuments();
@@ -136,15 +136,22 @@ export const updateSubscription = async (req, res) => {
 export const deleteSubscription = async (req, res) => {
   try {
     const { id } = req.params;
+
+    // Log the received id to ensure the correct one is being passed
+    console.log('Attempting to delete subscription with ID:', id);
+
     const subscription = await Subscription.findByIdAndDelete(id);
 
     if (!subscription) {
+      console.log('Subscription not found');
       return res.status(404).json({ success: false, message: 'Subscription not found' });
     }
 
+    console.log('Subscription deleted:', subscription); // Log the deleted subscription
+
     res.status(200).json({ success: true, message: 'Subscription deleted successfully' });
   } catch (error) {
-    console.error(error);
+    console.error('Error deleting subscription:', error); // Log the error message
     res.status(500).json({ success: false, message: error.message });
   }
 };

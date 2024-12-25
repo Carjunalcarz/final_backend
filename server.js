@@ -19,6 +19,7 @@ import supportTicketRoutes from "./routes/supportTicketRoutes.js"
 import networkNodeRoutes from "./routes/networkNodeRoutes.js"
 import connectionRoutes from "./routes/connectionRoutes.js"
 import billingRoutes from "./routes/billingRoutes.js"
+import authMiddleware from "./middleware/authMiddleware.js";
 
 
 dotenv.config();
@@ -43,11 +44,19 @@ app.use(
 );
 
 // Enable CORS for all origins or restrict to specific origins
+// app.use(
+//   cors({
+//     origin: "http://localhost:3000", // Allow your Next.js frontend
+//     methods: ["GET", "POST"],
+//     credentials: true,
+//   })
+// );
+// Enable CORS for all origins
 app.use(
   cors({
-    origin: "http://localhost:3000", // Allow your Next.js frontend
-    methods: ["GET", "POST"],
-    credentials: true,
+    origin: "*", // Allow all origins
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // Allow common HTTP methods
+    credentials: true, // Include cookies in requests
   })
 );
 
@@ -74,8 +83,8 @@ mongoose
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/forms", formRoutes);
-app.use("/api/service-plans", servicePlanRoutes);
+app.use("/api/forms", authMiddleware ,formRoutes);
+app.use("/api/service-plans",authMiddleware , servicePlanRoutes);
 app.use("/api/subscriptions", subscriptionRoutes);
 app.use('/api/support-tickets', supportTicketRoutes);
 app.use('/api/network-nodes', networkNodeRoutes);

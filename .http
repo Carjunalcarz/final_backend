@@ -10,3 +10,17 @@ Content-Type: application/json
   "endDate": "2028-01-01",
   "isActive": true
 }
+
+###
+POST https://final-backend-o2scx9v5d-alcarzs-projects.vercel.app/api/auth/login
+{
+    "Content-Type": "application/json"
+}
+
+{
+  "email": "alcarz1@example.com",
+  "password": "alcarz"
+}
+####GET https://final-backend-fovqh0uzg-alcarzs-projects.vercel.app/api/subscriptions
+Authorization: Bearer ovKiKXttFasgISSHnirE73ic
+Content-Type: application/json
