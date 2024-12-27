@@ -85,7 +85,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/forms", authMiddleware ,formRoutes);
 app.use("/api/service-plans",authMiddleware , servicePlanRoutes);
-app.use("/api/subscriptions", subscriptionRoutes);
+app.use("/api/subscriptions",authMiddleware, subscriptionRoutes);
 app.use('/api/support-tickets', supportTicketRoutes);
 app.use('/api/network-nodes', networkNodeRoutes);
 app.use('/api/connections', connectionRoutes);
