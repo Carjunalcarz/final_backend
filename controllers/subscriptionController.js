@@ -1,6 +1,7 @@
 // controllers/subscriptionController.js
 import Subscription from '../models/Subscription.js';
 
+
 // Create a new subscription
 export const createSubscription = async (req, res) => {
   try {
@@ -70,8 +71,8 @@ export const getAllSubscriptions = async (req, res) => {
   try {
     // Fetch all subscriptions and populate fields as needed
     const subscriptions = await Subscription.find()
-      .populate('user', 'firstName lastName')  // Populate user fields
-      .populate('servicePlan', 'name speedMbps');  // Optional: populate servicePlan if needed
+          .populate("client")
+          .populate("servicePlan")
 
     // Count total documents
     const totalSubscriptions = await Subscription.countDocuments();
@@ -88,14 +89,15 @@ export const getAllSubscriptions = async (req, res) => {
 };
 
 
-// Get a subscription by ID
+// Get a subscription by ID with populated user & service plan
 export const getSubscriptionById = async (req, res) => {
   try {
     const { id } = req.params;
-    const subscription = await Subscription.findById(id);
-
+    const subscription = await Subscription.findById(id)
+    .populate("client")
+    .populate("servicePlan");
     if (!subscription) {
-      return res.status(404).json({ success: false, message: 'Subscription not found' });
+      return res.status(404).json({ success: false, message: "Subscription not found" });
     }
 
     res.status(200).json({ success: true, data: subscription });

@@ -43,14 +43,8 @@ app.use(
   })
 );
 
-// Enable CORS for all origins or restrict to specific origins
-// app.use(
-//   cors({
-//     origin: "http://localhost:3000", // Allow your Next.js frontend
-//     methods: ["GET", "POST"],
-//     credentials: true,
-//   })
-// );
+
+
 // Enable CORS for all origins
 app.use(
   cors({
@@ -62,8 +56,11 @@ app.use(
 
 const PORT = process.env.PORT || 3000;
 
+
 // Middleware
 app.use(bodyParser.json());
+
+
 // Replace body-parser.json() with express.json()
 app.use(express.json()); // To parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // To parse URL-encoded data

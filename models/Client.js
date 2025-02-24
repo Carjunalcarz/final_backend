@@ -20,6 +20,4 @@ const formDataSchema = new mongoose.Schema({
   file: { type: String },
 });
 
-const FormData = mongoose.model("FormData", formDataSchema);
-
-export default FormData;
+export default mongoose.model("Client", formDataSchema);

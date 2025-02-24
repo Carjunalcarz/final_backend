@@ -1,4 +1,4 @@
-import FormData from "../models/Client.js";
+import Client from "../models/Client.js";
 import { validationResult } from "express-validator";
 
 // @desc Save form data
@@ -24,13 +24,13 @@ export const saveFormData = async (req, res) => {
     }
 
     // Create new form data
-    const formData = new FormData({
+    const client = new Client({
       ...req.body,
       file: req.file ? `/uploads/${req.file.filename}` : null, // Handle file upload
     });
 
     try {
-      const savedData = await formData.save();
+      const savedData = await client.save();
       res.status(201).json({ success: true, data: savedData });
     } catch (dbError) {
       console.error("Database error:", dbError);
@@ -59,7 +59,7 @@ export const getAllForms = async (req, res) => {
     const query = search ? { name: { $regex: search, $options: "i" } } : {};
 
     // Fetch all matching records with selected fields
-    const forms = await FormData.find(query, fields.split(",").join(" "));
+    const forms = await Client.find(query, fields.split(",").join(" "));
 
     res.json({
       success: true,

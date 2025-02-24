@@ -4,17 +4,46 @@ import User from '../models/User.js';
 
 const register = async (req, res) => {
   try {
-    const { firstName, lastName, email, password } = req.body;
+    const { fullname, email, password } = req.body;
 
+    // Validate the input data (optional, but recommended)
+    if (!fullname || !email || !password) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+
+    // Check if user already exists
     const existingUser = await User.findOne({ email });
-    if (existingUser) return res.status(400).json({ error: 'User already exists' });
+    if (existingUser) {
+      return res.status(400).json({ error: 'User already exists' });
+    }
 
+    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ firstName, lastName, email, password: hashedPassword });
 
-    res.status(201).json({ message: 'User registered successfully', user });
+    // Create a new user
+    const user = await User.create({
+      fullname,
+      email,
+      password: hashedPassword,
+    });
+
+    // Return the response
+    res.status(201).json({
+      message: 'User registered successfully',
+      status : "success",
+      user: {
+       
+        id: user._id,
+        fullname: user.fullname,
+        email: user.email,
+      },
+    });
   } catch (error) {
-    res.status(500).json({ error: 'Server error' });
+    // console.error('Registration error:', error);  // Log the error to the server console
+    res.status(500).json({ 
+      message : "Registration Error",
+      error: 'Server error'
+     });
   }
 };
 
