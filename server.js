@@ -86,7 +86,7 @@ app.use("/api/subscriptions",authMiddleware, subscriptionRoutes);
 app.use('/api/support-tickets', supportTicketRoutes);
 app.use('/api/network-nodes', networkNodeRoutes);
 app.use('/api/connections', connectionRoutes);
-app.use('/api/billings', billingRoutes);
+app.use('/api/billings',authMiddleware , billingRoutes);
 
 
 

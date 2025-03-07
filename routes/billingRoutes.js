@@ -11,7 +11,7 @@ import {
 const router = express.Router();
 
 // Route for creating a new billing record
-router.post('/', createBilling);
+router.post('/create', createBilling);
 
 // Route for getting all billing records
 router.get('/', getAllBillings);

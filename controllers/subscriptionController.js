@@ -1,6 +1,5 @@
 // controllers/subscriptionController.js
-import Subscription from '../models/Subscription.js';
-
+import Subscription from "../models/Subscription.js";
 
 // Create a new subscription
 export const createSubscription = async (req, res) => {
@@ -66,13 +65,12 @@ export const createSubscription = async (req, res) => {
 //   }
 // };
 
-
 export const getAllSubscriptions = async (req, res) => {
   try {
     // Fetch all subscriptions and populate fields as needed
     const subscriptions = await Subscription.find()
-          .populate("client")
-          .populate("servicePlan")
+      .populate("client")
+      .populate("servicePlan");
 
     // Count total documents
     const totalSubscriptions = await Subscription.countDocuments();
@@ -80,7 +78,7 @@ export const getAllSubscriptions = async (req, res) => {
     res.json({
       success: true,
       data: subscriptions,
-      totalSubscriptions: totalSubscriptions,  // Return total count
+      totalSubscriptions: totalSubscriptions, // Return total count
     });
   } catch (error) {
     console.error("Error fetching subscriptions:", error);
@@ -88,16 +86,17 @@ export const getAllSubscriptions = async (req, res) => {
   }
 };
 
-
 // Get a subscription by ID with populated user & service plan
 export const getSubscriptionById = async (req, res) => {
   try {
     const { id } = req.params;
     const subscription = await Subscription.findById(id)
-    .populate("client")
-    .populate("servicePlan");
+      .populate("client")
+      .populate("servicePlan");
     if (!subscription) {
-      return res.status(404).json({ success: false, message: "Subscription not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Subscription not found" });
     }
 
     res.status(200).json({ success: true, data: subscription });
@@ -109,30 +108,31 @@ export const getSubscriptionById = async (req, res) => {
 
 // Update a subscription by ID
 export const updateSubscription = async (req, res) => {
-    try {
-      const { id } = req.params; // Get the subscription ID from URL params
-      const updatedData = req.body; // Get the updated data from the request body
-  
-      // Use `findByIdAndUpdate` to update the subscription document by ID
-      const subscription = await Subscription.findByIdAndUpdate(id, updatedData, {
-        new: true,        // Return the updated document
-        runValidators: true, // Ensure validation is done on the updated data
-      });
-  
-      // If no subscription is found with the given ID, return a 404 response
-      if (!subscription) {
-        return res.status(404).json({ success: false, message: 'Subscription not found' });
-      }
-  
-      // Return the updated subscription in the response
-      res.status(200).json({ success: true, data: subscription });
-    } catch (error) {
-      // Catch any errors and return a 500 server error response
-      console.error(error);
-      res.status(500).json({ success: false, message: error.message });
+  try {
+    const { id } = req.params; // Get the subscription ID from URL params
+    const updatedData = req.body; // Get the updated data from the request body
+
+    // Use `findByIdAndUpdate` to update the subscription document by ID
+    const subscription = await Subscription.findByIdAndUpdate(id, updatedData, {
+      new: true, // Return the updated document
+      runValidators: true, // Ensure validation is done on the updated data
+    });
+
+    // If no subscription is found with the given ID, return a 404 response
+    if (!subscription) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Subscription not found" });
     }
-  };
-  
+
+    // Return the updated subscription in the response
+    res.status(200).json({ success: true, data: subscription });
+  } catch (error) {
+    // Catch any errors and return a 500 server error response
+    console.error(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 
 // Delete a subscription by ID
 export const deleteSubscription = async (req, res) => {
@@ -140,20 +140,24 @@ export const deleteSubscription = async (req, res) => {
     const { id } = req.params;
 
     // Log the received id to ensure the correct one is being passed
-    console.log('Attempting to delete subscription with ID:', id);
+    console.log("Attempting to delete subscription with ID:", id);
 
     const subscription = await Subscription.findByIdAndDelete(id);
 
     if (!subscription) {
-      console.log('Subscription not found');
-      return res.status(404).json({ success: false, message: 'Subscription not found' });
+      console.log("Subscription not found");
+      return res
+        .status(404)
+        .json({ success: false, message: "Subscription not found" });
     }
 
-    console.log('Subscription deleted:', subscription); // Log the deleted subscription
+    console.log("Subscription deleted:", subscription); // Log the deleted subscription
 
-    res.status(200).json({ success: true, message: 'Subscription deleted successfully' });
+    res
+      .status(200)
+      .json({ success: true, message: "Subscription deleted successfully" });
   } catch (error) {
-    console.error('Error deleting subscription:', error); // Log the error message
+    console.error("Error deleting subscription:", error); // Log the error message
     res.status(500).json({ success: false, message: error.message });
   }
 };
