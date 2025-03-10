@@ -46,11 +46,18 @@ app.use(
 
 
 // Enable CORS for all origins
+// app.use(
+//   cors({
+//     origin: "*", // Allow all origins
+//     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // Allow common HTTP methods
+//     credentials: true, // Include cookies in requests
+//   })
+// );
 app.use(
   cors({
-    origin: "*", // Allow all origins
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // Allow common HTTP methods
-    credentials: true, // Include cookies in requests
+    origin: ["http://localhost:3000", "http://192.168.1.89:3000"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    credentials: true,
   })
 );
 
