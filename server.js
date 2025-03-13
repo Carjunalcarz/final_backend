@@ -55,7 +55,7 @@ app.use(
 // );
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://192.168.1.89:3000"],
+    origin: ["http://localhost:3000", "http://192.168.1.89:3000" , "http://192.168.80.9:3000" , "https://billing-app-ivory.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true,
   })
